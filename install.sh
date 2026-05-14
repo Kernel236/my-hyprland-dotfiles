@@ -42,10 +42,10 @@ echo "    yazi              terminal file manager (via kitty)"
 echo "    awww              wallpaper daemon"
 echo "    cliphist          clipboard history (wl-paste)"
 echo
-echo "  Assets:"
-echo "    Tela-circle-dracula   icon theme  → ~/.local/share/icons/"
-echo "    Catppuccin-Mocha      GTK theme   → ~/.local/share/themes/"
-echo "    Wallpapers                        → ~/.config/assets/backgrounds/"
+echo "  Assets (copy manually — not tracked in git):"
+echo "    Wallpapers            → ~/.config/assets/backgrounds/{whitehat,blackhat}/"
+echo "    Icon theme            → yay -S tela-circle-icon-theme-dracula-git"
+echo "    GTK theme             → yay -S catppuccin-gtk-theme-mocha"
 echo
 read -rp "  Proceed? [y/N] " confirm
 [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
@@ -115,7 +115,6 @@ link "$DOTFILES/.config/rofi"       "$HOME/.config/rofi"
 link "$DOTFILES/.config/fastfetch"  "$HOME/.config/fastfetch"
 link "$DOTFILES/.config/wlogout"    "$HOME/.config/wlogout"
 link "$DOTFILES/.config/btop"       "$HOME/.config/btop"
-link "$DOTFILES/assets"             "$HOME/.config/assets"
 
 # ── Step 3: Local bin scripts ─────────────────────────────────────────────────
 step "3/5  Symlinking ~/.local/bin scripts"
@@ -127,25 +126,25 @@ for script in "$DOTFILES/.local/bin/"*; do
 done
 
 # ── Step 4: Assets ────────────────────────────────────────────────────────────
-step "4/5  Installing icon pack and GTK theme"
-mkdir -p "$HOME/.local/share/icons" "$HOME/.local/share/themes"
-
-if [[ ! -d "$HOME/.local/share/icons/Tela-circle-dracula" ]]; then
-    echo "  Extracting Tela-circle-dracula icon pack..."
-    tar -xf "$DOTFILES/assets/icons/Tela-circle-dracula.tar.xz" \
-        -C "$HOME/.local/share/icons/"
-    info "icon pack installed → ~/.local/share/icons/Tela-circle-dracula"
+step "4/5  Assets (manual setup)"
+echo "  Assets are not tracked in the repo (too large for git)."
+echo "  Copy your assets folder manually:"
+echo
+echo "    cp -r /path/to/assets ~/.config/assets"
+echo
+echo "  Expected layout:"
+echo "    ~/.config/assets/backgrounds/whitehat/   ← wallpapers macchiato"
+echo "    ~/.config/assets/backgrounds/blackhat/   ← wallpapers matrix"
+echo "    ~/.config/assets/backgrounds/my-avatar*.png"
+echo
+echo "  Icon theme and GTK theme — install via AUR or manually:"
+echo "    yay -S tela-circle-icon-theme-dracula-git"
+echo "    yay -S catppuccin-gtk-theme-mocha"
+echo
+if [[ -d "$HOME/.config/assets/backgrounds" ]]; then
+    info "~/.config/assets/backgrounds already present — nothing to do"
 else
-    info "icon pack already present"
-fi
-
-if [[ ! -d "$HOME/.local/share/themes/Catppuccin-Mocha" ]]; then
-    echo "  Extracting Catppuccin-Mocha GTK theme..."
-    tar -xf "$DOTFILES/assets/themes/Catppuccin-Mocha.tar.xz" \
-        -C "$HOME/.local/share/themes/"
-    info "GTK theme installed → ~/.local/share/themes/Catppuccin-Mocha"
-else
-    info "GTK theme already present"
+    warn "~/.config/assets/ not found — theme switcher wallpapers won't work until you copy it"
 fi
 
 # ── Step 5: Initialize theme ──────────────────────────────────────────────────
