@@ -1,4 +1,5 @@
 -- hyprland/themes/matrix.lua
+-- Stesse opzioni di macchiato.lua — vedi i commenti lì per la reference completa.
 
 hl.config({
     general = {
@@ -46,6 +47,7 @@ hl.config({
     },
 })
 
+-- Curve più snappy rispetto a macchiato: meno rimbalzo, più secco
 hl.curve("wind",   { type = "bezier", points = { { 0.08, 0.86 }, { 0.12, 1.0  } } })
 hl.curve("winIn",  { type = "bezier", points = { { 0.12, 0.98 }, { 0.12, 1.0  } } })
 hl.curve("winOut", { type = "bezier", points = { { 0.22, 0.0  }, { 0.0,  1.0  } } })
