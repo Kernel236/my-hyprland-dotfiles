@@ -42,10 +42,10 @@ echo "    yazi              terminal file manager (via kitty)"
 echo "    awww              wallpaper daemon"
 echo "    cliphist          clipboard history (wl-paste)"
 echo
-echo "  Assets (copy manually — not tracked in git):"
-echo "    Wallpapers            → ~/.config/assets/backgrounds/{whitehat,blackhat}/"
-echo "    Icon theme            → yay -S tela-circle-icon-theme-dracula-git"
-echo "    GTK theme             → yay -S catppuccin-gtk-theme-mocha"
+echo "  Assets (copied to ~/.config/assets):"
+echo "    Wallpapers            whitehat/ + blackhat/ backgrounds"
+echo "    wlogout icons         lock, logout, power, sleep, restart"
+echo "    Icon + GTK theme      install via yay (not bundled in repo)"
 echo
 read -rp "  Proceed? [y/N] " confirm
 [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
@@ -126,26 +126,20 @@ for script in "$DOTFILES/.local/bin/"*; do
 done
 
 # ── Step 4: Assets ────────────────────────────────────────────────────────────
-step "4/5  Assets (manual setup)"
-echo "  Assets are not tracked in the repo (too large for git)."
-echo "  Copy your assets folder manually:"
+step "4/5  Copying assets to ~/.config/assets"
+if [[ ! -d "$HOME/.config/assets" ]]; then
+    echo "  Copying assets (backgrounds, wlogout icons)..."
+    cp -r "$DOTFILES/assets" "$HOME/.config/assets"
+    info "assets copied → ~/.config/assets"
+else
+    echo "  Syncing new files into ~/.config/assets (existing files untouched)..."
+    cp -rn "$DOTFILES/assets/." "$HOME/.config/assets/"
+    info "assets synced"
+fi
 echo
-echo "    cp -r /path/to/assets ~/.config/assets"
-echo
-echo "  Expected layout:"
-echo "    ~/.config/assets/backgrounds/whitehat/   ← wallpapers macchiato"
-echo "    ~/.config/assets/backgrounds/blackhat/   ← wallpapers matrix"
-echo "    ~/.config/assets/backgrounds/my-avatar*.png"
-echo
-echo "  Icon theme and GTK theme — install via AUR or manually:"
+echo "  Icon theme and GTK theme — install separately if needed:"
 echo "    yay -S tela-circle-icon-theme-dracula-git"
 echo "    yay -S catppuccin-gtk-theme-mocha"
-echo
-if [[ -d "$HOME/.config/assets/backgrounds" ]]; then
-    info "~/.config/assets/backgrounds already present — nothing to do"
-else
-    warn "~/.config/assets/ not found — theme switcher wallpapers won't work until you copy it"
-fi
 
 # ── Step 5: Initialize theme ──────────────────────────────────────────────────
 step "5/5  Initializing macchiato theme"
