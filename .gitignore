@@ -3,8 +3,6 @@
 *.swo
 *~
 .DS_Store
-.claude/
-.codex
 .current_wallpaper
 assets/icons/
 assets/themes/
