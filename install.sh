@@ -19,10 +19,6 @@ step()  { echo -e "\n${CYAN}▶ $*${NC}"; }
 [[ "$EUID" -eq 0 ]]         && die "Do not run as root."
 command -v pacman &>/dev/null || die "pacman not found — this installer is Arch Linux only."
 [[ -f "$DOTFILES/packages.txt" ]] || die "packages.txt not found in $DOTFILES"
-[[ -f "$DOTFILES/assets/icons/Tela-circle-dracula.tar.xz" ]] \
-    || die "Missing asset: assets/icons/Tela-circle-dracula.tar.xz"
-[[ -f "$DOTFILES/assets/themes/Catppuccin-Mocha.tar.xz" ]] \
-    || die "Missing asset: assets/themes/Catppuccin-Mocha.tar.xz"
 
 # ── What this installs ────────────────────────────────────────────────────────
 echo -e "  Dotfiles from: ${CYAN}$DOTFILES${NC}"
