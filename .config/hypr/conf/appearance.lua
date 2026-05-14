@@ -22,5 +22,5 @@ dofile(os.getenv("HOME") .. "/.config/hypr/theme.lua")
 -- in Hyprland 0.55+ il blur si applica all'intera area inclusi pixel trasparenti,
 -- causando una striscia verticale blur larga quanto la notifica su tutto lo schermo
 hl.layer_rule({ match = { namespace = "rofi"                  }, blur = true, animation = "fade" })
-hl.layer_rule({ match = { namespace = "swaync-control-center" }, blur = true, animation = "fade" })
+--hl.layer_rule({ match = { namespace = "swaync-control-center" }, blur = true, animation = "fade" })
 hl.layer_rule({ match = { namespace = "wlogout"               }, blur = true, animation = "fade" })
