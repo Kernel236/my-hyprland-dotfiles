@@ -38,7 +38,7 @@ Hyprland rice for Arch Linux with a dual-theme system: **macchiato** (Catppuccin
 
 1. Clone the repo into your home directory:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/my-hyprland-dotfiles ~/my-hyprland-dotfiles
+   git clone https://github.com/Kernel236/my-hyprland-dotfiles ~/my-hyprland-dotfiles
    ```
 
 2. Run the installer:
