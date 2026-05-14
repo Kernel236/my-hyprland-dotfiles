@@ -33,12 +33,12 @@ hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 
 -- Float preset: minimize (1100x720 centered) / maximize (1500x820 centered)
 hl.bind(mainMod .. " + M", function()
-    hl.dsp.window.resize({ x = 1100, y = 720, relative = false })()
-    hl.dsp.window.center()()
+    hl.dispatch(hl.dsp.window.resize({ x = 1100, y = 720, relative = false }))
+    hl.dispatch(hl.dsp.window.center())
 end)
 hl.bind(mainMod .. " + SHIFT + M", function()
-    hl.dsp.window.resize({ x = 1500, y = 820, relative = false })()
-    hl.dsp.window.center()()
+    hl.dispatch(hl.dsp.window.resize({ x = 1500, y = 820, relative = false }))
+    hl.dispatch(hl.dsp.window.center())
 end)
 
 -- Toggle float / fullscreen
@@ -54,12 +54,12 @@ hl.bind(mainMod .. " + SPACE", hl.dsp.window.center())
 
 -- Alt-Tab: cycle windows (prev/next) and bring to top
 hl.bind("ALT + Tab", function()
-    hl.dsp.window.cycle_next({ next = false })()
-    hl.dsp.window.bring_to_top()()
+    hl.dispatch(hl.dsp.window.cycle_next({ next = false }))
+    hl.dispatch(hl.dsp.window.bring_to_top())
 end)
 hl.bind("ALT + SHIFT + Tab", function()
-    hl.dsp.window.cycle_next()()
-    hl.dsp.window.bring_to_top()()
+    hl.dispatch(hl.dsp.window.cycle_next())
+    hl.dispatch(hl.dsp.window.bring_to_top())
 end)
 
 -- Focus with arrow keys
