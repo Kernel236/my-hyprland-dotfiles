@@ -112,16 +112,6 @@ npm
 r
 python-pip
 
-# apps
-firefox
-discord
-spotify-launcher
-mpv
-gimp
-libreoffice-fresh
-remmina
-zathura
-
 # terminal fun
 btop
 fastfetch
