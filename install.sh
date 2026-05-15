@@ -121,7 +121,12 @@ link() {
 step "2/6  Symlinking ~/.config dirs"
 link "$DOTFILES/.config/hypr"       "$HOME/.config/hypr"
 link "$DOTFILES/.config/waybar"     "$HOME/.config/waybar"
-if $INSTALL_KITTY; then link "$DOTFILES/.config/kitty" "$HOME/.config/kitty"; fi
+APPLY_KITTY_CONFIG=false
+if $INSTALL_KITTY; then
+    APPLY_KITTY_CONFIG=true
+    link "$DOTFILES/.config/kitty" "$HOME/.config/kitty"
+fi
+export APPLY_KITTY_CONFIG
 link "$DOTFILES/.config/swaync"     "$HOME/.config/swaync"
 link "$DOTFILES/.config/rofi"       "$HOME/.config/rofi"
 link "$DOTFILES/.config/fastfetch"  "$HOME/.config/fastfetch"
