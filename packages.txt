@@ -103,6 +103,14 @@ lazygit
 # neovim build deps: tree-sitter parsers and telescope-fzf-native require gcc + make
 gcc
 make
+# neovim LSP runtime deps (Mason installs the servers but needs these runtimes):
+#   nodejs + npm  → bash-language-server, html-lsp, css-lsp, pyright
+#   r             → r-languageserver (also run: install.packages("languageserver") inside R)
+#   python-pip    → fallback installer for some Mason packages
+nodejs
+npm
+r
+python-pip
 
 # apps
 firefox
