@@ -57,7 +57,7 @@ if ask_yn "Install Neovim?";          then INSTALL_NVIM=true;   else INSTALL_NVI
 echo
 
 SKIP_PKGS=()
-$INSTALL_KITTY || SKIP_PKGS+=(kitty)
+$INSTALL_KITTY || SKIP_PKGS+=(kitty yazi)
 $INSTALL_ZSH   || SKIP_PKGS+=(zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting zsh-theme-powerlevel10k-git)
 $INSTALL_NVIM  || SKIP_PKGS+=(neovim lazygit gcc make nodejs npm r python-pip)
 
@@ -131,35 +131,35 @@ if $INSTALL_NVIM;  then link "$DOTFILES/.config/nvim"  "$HOME/.config/nvim";  fi
 
 # ── Step 3: Zsh + Oh My Zsh ──────────────────────────────────────────────────
 if $INSTALL_ZSH; then
-step "3/6  Setting up Zsh"
+    step "3/6  Setting up Zsh"
 
-# Install Oh My Zsh FIRST so it can't overwrite our symlink afterwards.
-# The installer backs up any existing .zshrc to .zshrc.pre-oh-my-zsh —
-# we let it do that on its own template, then we replace with our symlink.
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-    info "Installing Oh My Zsh..."
-    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    info "Oh My Zsh installed"
-else
-    info "Oh My Zsh already present"
-fi
+    # Install Oh My Zsh FIRST so it can't overwrite our symlink afterwards.
+    # The installer backs up any existing .zshrc to .zshrc.pre-oh-my-zsh —
+    # we let it do that on its own template, then we replace with our symlink.
+    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+        info "Installing Oh My Zsh..."
+        RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        info "Oh My Zsh installed"
+    else
+        info "Oh My Zsh already present"
+    fi
 
-# Symlink .zshrc AFTER Oh My Zsh — our link() helper backs up whatever
-# .zshrc exists at this point (Oh My Zsh's template) to .zshrc.bak.
-link "$DOTFILES/.zshrc" "$HOME/.zshrc"
+    # Symlink .zshrc AFTER Oh My Zsh — our link() helper backs up whatever
+    # .zshrc exists at this point (Oh My Zsh's template) to .zshrc.bak.
+    link "$DOTFILES/.zshrc" "$HOME/.zshrc"
 
-# Change default shell to zsh if not already set
-if [[ "$SHELL" != "$(which zsh)" ]]; then
-    chsh -s "$(which zsh)"
-    info "Default shell changed to zsh (takes effect on next login)"
-else
-    info "Default shell already zsh"
-fi
+    # Change default shell to zsh if not already set
+    if [[ "$SHELL" != "$(which zsh)" ]]; then
+        chsh -s "$(which zsh)"
+        info "Default shell changed to zsh (takes effect on next login)"
+    else
+        info "Default shell already zsh"
+    fi
 
-echo
-warn "First zsh launch will run 'p10k configure' to set up the prompt."
-warn "zsh-autosuggestions and zsh-syntax-highlighting must be available"
-warn "as oh-my-zsh plugins — see README if they are missing."
+    echo
+    warn "First zsh launch will run 'p10k configure' to set up the prompt."
+    warn "zsh-autosuggestions and zsh-syntax-highlighting must be available"
+    warn "as oh-my-zsh plugins — see README if they are missing."
 
 else
     info "Skipping Zsh setup."
@@ -175,7 +175,7 @@ for script in "$DOTFILES/.local/bin/"*; do
     link "$script" "$HOME/.local/bin/$(basename "$script")"
 done
 
-# ── Step 4: Assets ────────────────────────────────────────────────────────────
+# ── Step 5: Assets ────────────────────────────────────────────────────────────
 step "5/6  Copying assets to ~/.config/assets"
 if [[ ! -d "$HOME/.config/assets" ]]; then
     echo "  Copying assets (backgrounds, wlogout icons)..."
