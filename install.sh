@@ -33,6 +33,7 @@ echo "    wlogout           session logout screen"
 echo "    Fastfetch         system fetch"
 echo "    btop              system monitor"
 echo "    Neovim            text editor (lazy.nvim, LSP, Treesitter)"
+echo "    Zsh + Oh My Zsh   shell (powerlevel10k, autosuggestions, syntax highlight)"
 echo "    hyprlock          lock screen"
 echo "    hypridle          idle / power management daemon"
 echo "    yazi              terminal file manager (via kitty)"
@@ -48,7 +49,7 @@ read -rp "  Proceed? [y/N] " confirm
 [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
 
 # ── Step 1: Package check ─────────────────────────────────────────────────────
-step "1/5  Checking packages"
+step "1/6  Checking packages"
 
 total=0
 missing=()
@@ -103,7 +104,7 @@ link() {
 }
 
 # ── Step 2: Config symlinks ───────────────────────────────────────────────────
-step "2/5  Symlinking ~/.config dirs"
+step "2/6  Symlinking ~/.config dirs"
 link "$DOTFILES/.config/hypr"       "$HOME/.config/hypr"
 link "$DOTFILES/.config/waybar"     "$HOME/.config/waybar"
 link "$DOTFILES/.config/kitty"      "$HOME/.config/kitty"
@@ -114,8 +115,37 @@ link "$DOTFILES/.config/wlogout"    "$HOME/.config/wlogout"
 link "$DOTFILES/.config/btop"       "$HOME/.config/btop"
 link "$DOTFILES/.config/nvim"       "$HOME/.config/nvim"
 
-# ── Step 3: Local bin scripts ─────────────────────────────────────────────────
-step "3/5  Symlinking ~/.local/bin scripts"
+# ── Step 3: Zsh + Oh My Zsh ──────────────────────────────────────────────────
+step "3/6  Setting up Zsh"
+
+# Symlink .zshrc (backs up existing file if not already a symlink to ours)
+link "$DOTFILES/.zshrc" "$HOME/.zshrc"
+
+# Install Oh My Zsh if not present (unattended, keeps existing .zshrc)
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    info "Installing Oh My Zsh..."
+    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    info "Oh My Zsh installed"
+else
+    info "Oh My Zsh already present"
+fi
+
+# Change default shell to zsh if not already set
+if [[ "$SHELL" != "$(which zsh)" ]]; then
+    chsh -s "$(which zsh)"
+    info "Default shell changed to zsh (takes effect on next login)"
+else
+    info "Default shell already zsh"
+fi
+
+echo
+warn "First zsh launch will run 'p10k configure' to set up the prompt."
+warn "zsh-autosuggestions and zsh-syntax-highlighting must be available"
+warn "as oh-my-zsh plugins — see README if they are missing."
+
+# ── Step 4: Local bin scripts ─────────────────────────────────────────────────
+step "4/6  Symlinking ~/.local/bin scripts"
+
 mkdir -p "$HOME/.local/bin"
 for script in "$DOTFILES/.local/bin/"*; do
     [[ -f "$script" ]] || continue
@@ -124,7 +154,7 @@ for script in "$DOTFILES/.local/bin/"*; do
 done
 
 # ── Step 4: Assets ────────────────────────────────────────────────────────────
-step "4/5  Copying assets to ~/.config/assets"
+step "5/6  Copying assets to ~/.config/assets"
 if [[ ! -d "$HOME/.config/assets" ]]; then
     echo "  Copying assets (backgrounds, wlogout icons)..."
     cp -r "$DOTFILES/assets" "$HOME/.config/assets"
@@ -140,7 +170,7 @@ echo "    yay -S tela-circle-icon-theme-dracula-git"
 echo "    yay -S catppuccin-gtk-theme-mocha"
 
 # ── Step 5: Initialize theme ──────────────────────────────────────────────────
-step "5/5  Initializing macchiato theme"
+step "6/6  Initializing macchiato theme"
 echo "  Running theme-switch.sh macchiato (safe outside Hyprland)..."
 bash "$DOTFILES/.config/waybar/scripts/theme-switch.sh" macchiato 2>/dev/null || true
 info "theme initialized"

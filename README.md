@@ -26,6 +26,7 @@ Hyprland rice for Arch Linux with a dual-theme system: **macchiato** (Catppuccin
 | Lock / idle | hyprlock + hypridle |
 | Clipboard | cliphist + wl-paste |
 | Editor | Neovim (lazy.nvim, LSP, Treesitter) |
+| Shell | Zsh + Oh My Zsh + Powerlevel10k |
 
 **Font:** JetBrainsMono Nerd Font  
 **Icons:** Tela-circle-dracula (included as archive in `assets/`)  
@@ -131,6 +132,7 @@ my-hyprland-dotfiles/
 │   ├── wlogout/            logout screen layout and icons
 │   ├── btop/               system monitor config
 │   └── nvim/               Neovim config (lazy.nvim, LSP, Treesitter, catppuccin)
+├── .zshrc                  Zsh config (Oh My Zsh, powerlevel10k, autosuggestions)
 ├── .local/
 │   └── bin/                rofi-launcher, rofi-wallpaper, rofi-clipboard
 ├── assets/                 wallpapers, icon pack archive, GTK theme archive
