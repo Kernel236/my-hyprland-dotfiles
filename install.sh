@@ -118,10 +118,9 @@ link "$DOTFILES/.config/nvim"       "$HOME/.config/nvim"
 # ── Step 3: Zsh + Oh My Zsh ──────────────────────────────────────────────────
 step "3/6  Setting up Zsh"
 
-# Symlink .zshrc (backs up existing file if not already a symlink to ours)
-link "$DOTFILES/.zshrc" "$HOME/.zshrc"
-
-# Install Oh My Zsh if not present (unattended, keeps existing .zshrc)
+# Install Oh My Zsh FIRST so it can't overwrite our symlink afterwards.
+# The installer backs up any existing .zshrc to .zshrc.pre-oh-my-zsh —
+# we let it do that on its own template, then we replace with our symlink.
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
     info "Installing Oh My Zsh..."
     RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -129,6 +128,10 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
 else
     info "Oh My Zsh already present"
 fi
+
+# Symlink .zshrc AFTER Oh My Zsh — our link() helper backs up whatever
+# .zshrc exists at this point (Oh My Zsh's template) to .zshrc.bak.
+link "$DOTFILES/.zshrc" "$HOME/.zshrc"
 
 # Change default shell to zsh if not already set
 if [[ "$SHELL" != "$(which zsh)" ]]; then
