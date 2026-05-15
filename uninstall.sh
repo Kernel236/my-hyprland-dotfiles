@@ -141,5 +141,5 @@ echo -e "${GREEN}  Done! System cleaned.${NC}"
 echo -e "  Still installed: ${CYAN}sddm  hyprland  uwsm  kitty  yay  pacman-contrib${NC}"
 echo
 echo "  Install another DE, then remove Hyprland with:"
-echo -e "    ${CYAN}yay -Rns hyprland uwsm xdg-desktop-portal-hyprland${NC}"
+echo -e "    ${CYAN}yay -Rns hyprland uwsm${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
