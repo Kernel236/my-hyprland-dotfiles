@@ -37,7 +37,7 @@ echo "    Neovim            text editor (lazy.nvim, LSP, Treesitter) (optional)"
 echo "    Zsh + Oh My Zsh   shell (powerlevel10k, autosuggestions, syntax highlight) (optional)"
 echo "    hyprlock          lock screen"
 echo "    hypridle          idle / power management daemon"
-echo "    yazi              terminal file manager (via kitty)"
+echo "    yazi              terminal file manager (via kitty, optional)"
 echo "    awww              wallpaper daemon"
 echo "    cliphist          clipboard history (wl-paste)"
 echo
