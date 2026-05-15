@@ -1,2 +1,4 @@
 .config/waybar/**/*.css linguist-detectable=false
 .config/waybar/*.css linguist-detectable=false
+.config/swaync/**/*.css linguist-detectable=false
+.config/swaync/*.css linguist-detectable=false
