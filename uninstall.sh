@@ -55,8 +55,9 @@ done
 
 # ── Step 2: Local bin scripts ─────────────────────────────────────────────────
 step "2/5  Removing ~/.local/bin scripts"
-for script in rofi-launcher rofi-clipboard rofi-wallpaper; do
-    unlink_if_ours "$HOME/.local/bin/$script"
+for script in "$DOTFILES/.local/bin/"*; do
+    [[ -f "$script" ]] || continue
+    unlink_if_ours "$HOME/.local/bin/$(basename "$script")"
 done
 
 # ── Step 3: Assets ────────────────────────────────────────────────────────────
@@ -85,8 +86,8 @@ else
     info "~/.oh-my-zsh not found, skipping"
 fi
 
-if [[ "$SHELL" != "/bin/bash" ]]; then
-    chsh -s /bin/bash
+if [[ "$SHELL" != "$(command -v bash)" ]]; then
+    chsh -s "$(command -v bash)"
     info "default shell restored to bash (takes effect on next login)"
 else
     info "shell already bash"
@@ -115,7 +116,12 @@ else
     printf '      %s\n' "${to_remove[@]}"
     echo
     if command -v yay &>/dev/null; then
-        yay -Rns --noconfirm "${to_remove[@]}"
+        read -rp "  Remove these packages? [y/N] " answer
+        if [[ "$answer" =~ ^[Yy]$ ]]; then
+            yay -Rns --noconfirm "${to_remove[@]}"
+        else
+            warn "Skipping package removal."
+        fi
     else
         warn "yay not found — remove packages manually:"
         printf '      %s\n' "${to_remove[@]}"
