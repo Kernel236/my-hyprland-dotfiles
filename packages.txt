@@ -100,6 +100,9 @@ neovim
 vim
 ex-vi-compat
 lazygit
+# neovim build deps: tree-sitter parsers and telescope-fzf-native require gcc + make
+gcc
+make
 
 # apps
 firefox
