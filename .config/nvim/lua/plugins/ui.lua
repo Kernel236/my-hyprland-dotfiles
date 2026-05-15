@@ -9,7 +9,7 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
-        theme              = "catppuccin", -- matches the colorscheme
+        theme              = "catppuccin-mocha", -- matches the colorscheme
         globalstatus       = true,         -- one statusline for all windows
         -- Powerline-style separators (require a Nerd Font — already in packages.txt)
         section_separators = { left = "", right = "" },

@@ -7,7 +7,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    main  = "nvim-treesitter.configs", -- tells lazy which module to call setup() on
+    main  = "nvim-treesitter", -- tells lazy which module to call setup() on
     opts  = {
       ensure_installed = {
         -- Target languages
