@@ -14,6 +14,7 @@ info()  { echo -e "  ${GREEN}✓${NC}  $*"; }
 warn()  { echo -e "  ${YELLOW}!${NC}  $*"; }
 die()   { echo -e "  ${RED}✗  $*${NC}" >&2; exit 1; }
 step()  { echo -e "\n${CYAN}▶ $*${NC}"; }
+ask_yn() { local _a; read -rp "  $1 [Y/n] " _a; [[ -z "$_a" || "$_a" =~ ^[Yy]$ ]]; }
 
 # ── Pre-flight checks ─────────────────────────────────────────────────────────
 [[ "$EUID" -eq 0 ]]         && die "Do not run as root."
@@ -27,13 +28,13 @@ echo "  Components that will be configured:"
 echo "    Hyprland 0.55+    Wayland compositor (Lua config)"
 echo "    Waybar            status bar"
 echo "    Rofi              app launcher, clipboard picker, emoji"
-echo "    Kitty             terminal"
+echo "    Kitty             terminal (optional)"
 echo "    swaync            notification center"
 echo "    wlogout           session logout screen"
 echo "    Fastfetch         system fetch"
 echo "    btop              system monitor"
-echo "    Neovim            text editor (lazy.nvim, LSP, Treesitter)"
-echo "    Zsh + Oh My Zsh   shell (powerlevel10k, autosuggestions, syntax highlight)"
+echo "    Neovim            text editor (lazy.nvim, LSP, Treesitter) (optional)"
+echo "    Zsh + Oh My Zsh   shell (powerlevel10k, autosuggestions, syntax highlight) (optional)"
 echo "    hyprlock          lock screen"
 echo "    hypridle          idle / power management daemon"
 echo "    yazi              terminal file manager (via kitty)"
@@ -50,11 +51,9 @@ read -rp "  Proceed? [y/N] " confirm
 
 # ── Optional components ───────────────────────────────────────────────────────
 echo
-ask_yn() { local _a; read -rp "  $1 [Y/n] " _a; [[ -z "$_a" || "$_a" =~ ^[Yy]$ ]]; }
-
-ask_yn "Install Kitty terminal?"   && INSTALL_KITTY=true  || INSTALL_KITTY=false
-ask_yn "Install Zsh + Oh My Zsh?"  && INSTALL_ZSH=true    || INSTALL_ZSH=false
-ask_yn "Install Neovim?"           && INSTALL_NVIM=true    || INSTALL_NVIM=false
+if ask_yn "Install Kitty terminal?";  then INSTALL_KITTY=true; else INSTALL_KITTY=false; fi
+if ask_yn "Install Zsh + Oh My Zsh?"; then INSTALL_ZSH=true;   else INSTALL_ZSH=false;   fi
+if ask_yn "Install Neovim?";          then INSTALL_NVIM=true;   else INSTALL_NVIM=false;  fi
 echo
 
 SKIP_PKGS=()
@@ -122,13 +121,13 @@ link() {
 step "2/6  Symlinking ~/.config dirs"
 link "$DOTFILES/.config/hypr"       "$HOME/.config/hypr"
 link "$DOTFILES/.config/waybar"     "$HOME/.config/waybar"
-$INSTALL_KITTY && link "$DOTFILES/.config/kitty"      "$HOME/.config/kitty"
+if $INSTALL_KITTY; then link "$DOTFILES/.config/kitty" "$HOME/.config/kitty"; fi
 link "$DOTFILES/.config/swaync"     "$HOME/.config/swaync"
 link "$DOTFILES/.config/rofi"       "$HOME/.config/rofi"
 link "$DOTFILES/.config/fastfetch"  "$HOME/.config/fastfetch"
 link "$DOTFILES/.config/wlogout"    "$HOME/.config/wlogout"
 link "$DOTFILES/.config/btop"       "$HOME/.config/btop"
-$INSTALL_NVIM  && link "$DOTFILES/.config/nvim"       "$HOME/.config/nvim"
+if $INSTALL_NVIM;  then link "$DOTFILES/.config/nvim"  "$HOME/.config/nvim";  fi
 
 # ── Step 3: Zsh + Oh My Zsh ──────────────────────────────────────────────────
 if $INSTALL_ZSH; then
