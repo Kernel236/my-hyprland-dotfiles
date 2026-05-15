@@ -48,6 +48,20 @@ echo
 read -rp "  Proceed? [y/N] " confirm
 [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
 
+# ── Optional components ───────────────────────────────────────────────────────
+echo
+ask_yn() { local _a; read -rp "  $1 [Y/n] " _a; [[ -z "$_a" || "$_a" =~ ^[Yy]$ ]]; }
+
+ask_yn "Install Kitty terminal?"   && INSTALL_KITTY=true  || INSTALL_KITTY=false
+ask_yn "Install Zsh + Oh My Zsh?"  && INSTALL_ZSH=true    || INSTALL_ZSH=false
+ask_yn "Install Neovim?"           && INSTALL_NVIM=true    || INSTALL_NVIM=false
+echo
+
+SKIP_PKGS=()
+$INSTALL_KITTY || SKIP_PKGS+=(kitty)
+$INSTALL_ZSH   || SKIP_PKGS+=(zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting zsh-theme-powerlevel10k-git)
+$INSTALL_NVIM  || SKIP_PKGS+=(neovim lazygit gcc make nodejs npm r python-pip)
+
 # ── Step 1: Package check ─────────────────────────────────────────────────────
 step "1/6  Checking packages"
 
@@ -58,6 +72,7 @@ while IFS= read -r line; do
     pkg="${line%%#*}"
     pkg="${pkg//[[:space:]]}"
     [[ -z "$pkg" ]] && continue
+    [[ " ${SKIP_PKGS[*]} " == *" $pkg "* ]] && continue
     (( total++ )) || true
     pacman -Q "$pkg" &>/dev/null || missing+=("$pkg")
 done < "$DOTFILES/packages.txt"
@@ -107,15 +122,16 @@ link() {
 step "2/6  Symlinking ~/.config dirs"
 link "$DOTFILES/.config/hypr"       "$HOME/.config/hypr"
 link "$DOTFILES/.config/waybar"     "$HOME/.config/waybar"
-link "$DOTFILES/.config/kitty"      "$HOME/.config/kitty"
+$INSTALL_KITTY && link "$DOTFILES/.config/kitty"      "$HOME/.config/kitty"
 link "$DOTFILES/.config/swaync"     "$HOME/.config/swaync"
 link "$DOTFILES/.config/rofi"       "$HOME/.config/rofi"
 link "$DOTFILES/.config/fastfetch"  "$HOME/.config/fastfetch"
 link "$DOTFILES/.config/wlogout"    "$HOME/.config/wlogout"
 link "$DOTFILES/.config/btop"       "$HOME/.config/btop"
-link "$DOTFILES/.config/nvim"       "$HOME/.config/nvim"
+$INSTALL_NVIM  && link "$DOTFILES/.config/nvim"       "$HOME/.config/nvim"
 
 # ── Step 3: Zsh + Oh My Zsh ──────────────────────────────────────────────────
+if $INSTALL_ZSH; then
 step "3/6  Setting up Zsh"
 
 # Install Oh My Zsh FIRST so it can't overwrite our symlink afterwards.
@@ -145,6 +161,10 @@ echo
 warn "First zsh launch will run 'p10k configure' to set up the prompt."
 warn "zsh-autosuggestions and zsh-syntax-highlighting must be available"
 warn "as oh-my-zsh plugins — see README if they are missing."
+
+else
+    info "Skipping Zsh setup."
+fi
 
 # ── Step 4: Local bin scripts ─────────────────────────────────────────────────
 step "4/6  Symlinking ~/.local/bin scripts"
