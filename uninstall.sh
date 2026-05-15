@@ -39,9 +39,13 @@ read -rp "  Proceed? [y/N] " confirm
 # ── Symlink removal helper ────────────────────────────────────────────────────
 unlink_if_ours() {
     local dst="$1"
-    if [[ -L "$dst" && "$(readlink "$dst")" == "$DOTFILES"* ]]; then
-        rm "$dst"
-        info "removed  $dst"
+    local target
+    if [[ -L "$dst" ]]; then
+        target="$(readlink "$dst")"
+        if [[ "$target" == "$DOTFILES" || "$target" == "$DOTFILES"/* ]]; then
+            rm "$dst"
+            info "removed  $dst"
+        fi
     elif [[ -e "$dst" ]]; then
         warn "skipping  $dst  (not a repo symlink)"
     fi
