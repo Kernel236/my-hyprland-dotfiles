@@ -1,6 +1,11 @@
 -- options.lua
 -- Global Neovim options. All plugin-specific options live in their own file.
 
+-- Disable netrw (built-in file browser) — nvim-tree replaces it entirely.
+-- Must be set before any plugin loads.
+vim.g.loaded_netrw       = 1
+vim.g.loaded_netrwPlugin = 1
+
 local opt = vim.opt
 
 -- ── Line numbers ──────────────────────────────────────────────────────────────

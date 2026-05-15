@@ -17,6 +17,7 @@ return {
       treesitter      = true,
       mason           = true,
       indent_blankline = { enabled = true },
+      nvimtree        = true,
     },
   },
   config = function(_, opts)

@@ -32,6 +32,10 @@ map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = "Up" }
 map("v", "<", "<gv", { desc = "Indent left and reselect" })
 map("v", ">", ">gv", { desc = "Indent right and reselect" })
 
+-- ── NvimTree ──────────────────────────────────────────────────────────────────
+map("n", "<leader>t",  "<cmd>NvimTreeToggle<cr>",   { desc = "Toggle file tree" })
+map("n", "<leader>tf", "<cmd>NvimTreeFocus<cr>",    { desc = "Focus file tree" })
+
 -- ── Telescope ─────────────────────────────────────────────────────────────────
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>",  { desc = "Find files" })
 map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>",   { desc = "Live grep" })
