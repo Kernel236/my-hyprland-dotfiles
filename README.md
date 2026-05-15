@@ -27,6 +27,7 @@ Hyprland rice for Arch Linux with a dual-theme system: **macchiato** (Catppuccin
 | Clipboard | cliphist + wl-paste |
 | Editor | Neovim (lazy.nvim, LSP, Treesitter) |
 | Shell | Zsh + Oh My Zsh + Powerlevel10k |
+| File Manager | yazi
 
 **Font:** JetBrainsMono Nerd Font  
 **Icons:** Tela-circle-dracula (included as archive in `assets/`)  
@@ -56,7 +57,7 @@ Hyprland rice for Arch Linux with a dual-theme system: **macchiato** (Catppuccin
    uwsm start hyprland
    ```
 
-Any future edit to the repo is reflected immediately — symlinks keep `~/.config/` in sync with the repo.
+Any future edit to the repo is reflected immediately - symlinks keep `~/.config/` in sync with the repo.
 
 To add the BlackArch repository (optional), follow the official instructions at https://blackarch.org/downloads.html#install-repo
 
@@ -93,9 +94,11 @@ Config lives in `.config/nvim/` and is symlinked to `~/.config/nvim` by the inst
 | HTML | html-lsp |
 | CSS | css-lsp |
 
+Remove the language that you do not use.
+
 **Plugins:** Telescope, nvim-treesitter, nvim-cmp + LuaSnip, lualine, indent-blankline, nvim-autopairs, nvim-surround, catppuccin
 
-**Theme:** Catppuccin Macchiato with transparent background — opacity and blur are managed by Hyprland on the kitty window.
+**Theme:** Catppuccin Macchiato with transparent background - opacity and blur are managed by Hyprland on the kitty window.
 
 **First launch:** Mason installs all LSP servers automatically (takes ~1-2 min). Subsequent launches are instant.
 
@@ -105,8 +108,8 @@ Config lives in `.config/nvim/` and is symlinked to `~/.config/nvim` by the inst
 
 Wallpapers are split by theme in `assets/backgrounds/`:
 
-- `whitehat/` — used with macchiato (anime, landscapes, Studio Ghibli)
-- `blackhat/` — used with matrix (dark Arch, Uchiha, BlackArch)
+- `whitehat/` - used with macchiato (anime, landscapes, Studio Ghibli)
+- `blackhat/` - used with matrix (dark Arch, Uchiha, BlackArch)
 
 The wallpaper picker (`Super + SHIFT + W`) opens a Rofi gallery. You can also set a random wallpaper from the current theme's folder automatically on login.
 
