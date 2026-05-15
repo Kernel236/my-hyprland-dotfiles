@@ -1,6 +1,7 @@
 -- keymaps.lua
--- Global keybindings. LSP and Telescope shortcuts are here too so they're
--- visible in one place; they activate even before those plugins load.
+-- Global keybindings and LSP buffer-local keybindings in one place.
+-- LSP mappings are registered via LspAttach so they only apply to buffers
+-- where a language server is active (preserves K, gd, etc. in help/Mason/terminal).
 
 local map = vim.keymap.set
 
@@ -37,12 +38,19 @@ map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>",   { desc = "Live grep" })
 map("n", "<leader>fb", "<cmd>Telescope buffers<cr>",     { desc = "Find buffers" })
 map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>",   { desc = "Help tags" })
 
--- ── LSP (active when a server attaches to the current buffer) ─────────────────
-map("n", "gd",         vim.lsp.buf.definition,  { desc = "Go to definition" })
-map("n", "gr",         vim.lsp.buf.references,  { desc = "Go to references" })
-map("n", "K",          vim.lsp.buf.hover,        { desc = "Hover docs" })
-map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-map("n", "<leader>rn", vim.lsp.buf.rename,       { desc = "Rename symbol" })
-map("n", "[d",         vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
-map("n", "]d",         vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-map("n", "<leader>e",  vim.diagnostic.open_float, { desc = "Show diagnostic float" })
+-- ── LSP (buffer-local, registered when a server attaches) ────────────────────
+-- Scoped to the attached buffer so global keys like K (help tag) are not overridden
+-- in non-code buffers (help pages, Mason UI, terminal, etc.).
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+    local opts = { buffer = ev.buf }
+    map("n", "gd",         vim.lsp.buf.definition,   vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+    map("n", "gr",         vim.lsp.buf.references,   vim.tbl_extend("force", opts, { desc = "Go to references" }))
+    map("n", "K",          vim.lsp.buf.hover,         vim.tbl_extend("force", opts, { desc = "Hover docs" }))
+    map("n", "<leader>ca", vim.lsp.buf.code_action,  vim.tbl_extend("force", opts, { desc = "Code action" }))
+    map("n", "<leader>rn", vim.lsp.buf.rename,        vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+    map("n", "[d",         vim.diagnostic.goto_prev,  vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+    map("n", "]d",         vim.diagnostic.goto_next,  vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+    map("n", "<leader>e",  vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Show diagnostic float" }))
+  end,
+})
