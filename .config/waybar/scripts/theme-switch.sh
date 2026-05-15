@@ -9,15 +9,11 @@ export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 case "$theme" in
     matrix)
         wall_dir="$HOME/.config/assets/backgrounds/blackhat"
-        avatar="$HOME/.config/assets/backgrounds/my-avatar-blackhat-transparent.png"
         ;;
     *)
         wall_dir="$HOME/.config/assets/backgrounds/whitehat"
-        avatar="$HOME/.config/assets/backgrounds/my-avatar-whitehat.png"
         ;;
 esac
-# Fallback avatar se quello specifico non esiste ancora
-[[ -f "$avatar" ]] || avatar="$HOME/.config/assets/backgrounds/my-avatar.png"
 
 # ── Symlinks e file (tutti prima di qualsiasi segnale) ──────────────────────
 ln -sf "$HOME/.config/waybar/themes/${theme}.css"     "$HOME/.config/waybar/theme.css"
