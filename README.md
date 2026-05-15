@@ -25,6 +25,7 @@ Hyprland rice for Arch Linux with a dual-theme system: **macchiato** (Catppuccin
 | Wallpaper daemon | awww |
 | Lock / idle | hyprlock + hypridle |
 | Clipboard | cliphist + wl-paste |
+| Editor | Neovim (lazy.nvim, LSP, Treesitter) |
 
 **Font:** JetBrainsMono Nerd Font  
 **Icons:** Tela-circle-dracula (included as archive in `assets/`)  
@@ -73,6 +74,32 @@ The script updates symlinks for Hyprland, Waybar, Kitty, swaync, Rofi and Fastfe
 
 ---
 
+## Neovim
+
+Config lives in `.config/nvim/` and is symlinked to `~/.config/nvim` by the installer.
+
+**Plugin manager:** lazy.nvim (auto-bootstrapped on first launch)
+
+**LSP servers** (auto-installed via Mason on first launch):
+
+| Language | Server |
+|---|---|
+| Python | pyright |
+| R | r-languageserver |
+| Lua | lua-language-server |
+| Bash | bash-language-server |
+| C / C++ | clangd |
+| HTML | html-lsp |
+| CSS | css-lsp |
+
+**Plugins:** Telescope, nvim-treesitter, nvim-cmp + LuaSnip, lualine, indent-blankline, nvim-autopairs, nvim-surround, catppuccin
+
+**Theme:** Catppuccin Macchiato with transparent background — opacity and blur are managed by Hyprland on the kitty window.
+
+**First launch:** Mason installs all LSP servers automatically (takes ~1-2 min). Subsequent launches are instant.
+
+---
+
 ## Wallpapers
 
 Wallpapers are split by theme in `assets/backgrounds/`:
@@ -102,7 +129,8 @@ my-hyprland-dotfiles/
 │   ├── rofi/               launcher, wallpaper picker, themes
 │   ├── fastfetch/          per-theme fetch configs
 │   ├── wlogout/            logout screen layout and icons
-│   └── btop/               system monitor config
+│   ├── btop/               system monitor config
+│   └── nvim/               Neovim config (lazy.nvim, LSP, Treesitter, catppuccin)
 ├── .local/
 │   └── bin/                rofi-launcher, rofi-wallpaper, rofi-clipboard
 ├── assets/                 wallpapers, icon pack archive, GTK theme archive
