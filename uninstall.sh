@@ -83,9 +83,11 @@ elif [[ -e "$HOME/.zshrc" ]]; then
     warn "~/.zshrc exists but is not a repo symlink — leaving it in place"
 fi
 
-if [[ -d "$HOME/.oh-my-zsh" ]]; then
-    rm -rf "$HOME/.oh-my-zsh"
-    info "removed ~/.oh-my-zsh"
+if [[ -L "$HOME/.oh-my-zsh" && "$(readlink "$HOME/.oh-my-zsh")" == "$DOTFILES"* ]]; then
+    rm "$HOME/.oh-my-zsh"
+    info "removed ~/.oh-my-zsh symlink"
+elif [[ -e "$HOME/.oh-my-zsh" ]]; then
+    warn "~/.oh-my-zsh exists but is not a repo-owned symlink — leaving it in place"
 else
     info "~/.oh-my-zsh not found, skipping"
 fi
