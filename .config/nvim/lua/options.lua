@@ -10,7 +10,7 @@ local opt = vim.opt
 
 -- ── Line numbers ──────────────────────────────────────────────────────────────
 opt.number         = true   -- show absolute line number on current line
-opt.relativenumber = true    -- show relative numbers on all other lines
+opt.relativenumber = false  -- show relative numbers on all other lines
 
 -- ── Indentation ───────────────────────────────────────────────────────────────
 opt.tabstop    = 2     -- a tab counts as 2 spaces
